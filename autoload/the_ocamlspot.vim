@@ -277,5 +277,10 @@ endfunction
 
 function! s:get_syntastic_loclist()
   let locObj = get(b:, 'syntastic_loclist', [])
-  return type(locObj) ==# type([]) ? locObj : locObj.toRaw()
+  if type(locObj) ==# type([]) || !has_key(locObj, 'toRaw()')
+      return []
+  else
+      return locObj.toRaw()
+  " let locObj = get(b:, 'syntastic_loclist', [])
+  " return type(locObj) ==# type([]) ? locObj : locObj.toRaw()
 endfunction
