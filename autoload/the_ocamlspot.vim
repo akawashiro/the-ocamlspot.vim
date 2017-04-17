@@ -26,8 +26,9 @@ function! the_ocamlspot#auto_type()
 
   if g:the_ocamlspot_auto_type_always
     call the_ocamlspot#main('type')
-  else
-    let allerrors = getqflist() + getloclist(0) + s:get_syntastic_loclist()
+else
+    let loclist = s:get_syntastic_loclist()
+    let allerrors = getqflist() + getloclist(0) + loclist
     let current_line = line('.')
     let on_line = filter(copy(allerrors), 'v:val.lnum == ' . current_line)
     if len(on_line) == 0
@@ -281,6 +282,4 @@ function! s:get_syntastic_loclist()
       return []
   else
       return locObj.toRaw()
-  " let locObj = get(b:, 'syntastic_loclist', [])
-  " return type(locObj) ==# type([]) ? locObj : locObj.toRaw()
 endfunction
